@@ -1,10 +1,21 @@
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.views import View
 
-class CustomLoginForm(AuthenticationForm):
-    pass
+from .forms import CustomLoginForm, RegisterForm
+
+class RegisterView(View):
+    def get(self, request):
+        form = RegisterForm()
+        return render(request, "../templates/registration/signup.html", context={"form": form})
+
+    def post(self, request):
+        form = RegisterForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect("login")
+        return render(request, "../templates/registration/signup.html", context={"form": form})
 
 class LoginView(View):
     def get(self, request):
