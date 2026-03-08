@@ -1,3 +1,14 @@
+from django.http.response import HttpResponse
 from django.shortcuts import render
+from django.views import View
 
-# Create your views here.
+from .models import Event
+
+class EventDetailView(View):
+    def get(self, request, event_id):
+        try:
+            event = Event.objects.get(pk=event_id)
+        except Event.DoesNotExist:
+            return HttpResponse("Event does not exist!")
+
+        return render(request, "../templates/event_detail.html", context={"event": event})

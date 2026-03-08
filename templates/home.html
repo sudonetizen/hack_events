@@ -3,27 +3,28 @@
 {% block title %}Homepage{% endblock title %}
 
 {% block content %}
-        <h1>Welcome to Hack Events</h1>
+        <h2>Welcome to Hack Events</h2>
+        </br>
 
-        <h2>Active Hack Events</h2>
+        <h3>Active Hack Events</h3>
         {% for event in active_hack_events %}
-            <h3>{{ event.title }}</h3>
+            <p>{{ event.title }}</p>
             <p>{{ event.overview }}</p>
         {% endfor %}
 
         </br>
 
-        <h2>Coming Hack Events</h2>
+        <h3>Coming Hack Events</h3>
         {% for event in coming_hack_events %}
-            <h3>{{ event.title }}</h3>
+            <p>{{ event.title }}</p>
             <p>{{ event.overview }}</p>
         {% endfor %}
 
         </br>
 
-        <h2>Past Hack Events</h2>
+        <h3>Past Hack Events</h3>
         {% for event in past_hack_events %}
-            <h3>{{ event.title }}</h3>
+            <p>{{ event.title }}<p>
             <p>{{ event.overview }}</p>
         {% endfor %}
 {% endblock content %}
