@@ -8,7 +8,7 @@
 
         <h3>Active Hack Events</h3>
         {% for event in active_hack_events %}
-            <p>{{ event.title }}</p>
+            <p><a href="{% url 'event-detail' event.pk %}">{{ event.title }}</a></p>
             <p>{{ event.overview }}</p>
         {% endfor %}
 
@@ -16,7 +16,7 @@
 
         <h3>Coming Hack Events</h3>
         {% for event in coming_hack_events %}
-            <p>{{ event.title }}</p>
+            <p><a href="{% url 'event-detail' event.pk %}">{{ event.title }}</a></p>
             <p>{{ event.overview }}</p>
         {% endfor %}
 
@@ -24,7 +24,7 @@
 
         <h3>Past Hack Events</h3>
         {% for event in past_hack_events %}
-            <p>{{ event.title }}<p>
+            <p><a href="{% url 'event-detail' event.pk %}">{{ event.title }}</a></p>
             <p>{{ event.overview }}</p>
         {% endfor %}
 {% endblock content %}

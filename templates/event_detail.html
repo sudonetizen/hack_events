@@ -3,6 +3,10 @@
 {% block title %}Event Detail{% endblock title %}
 
 {% block content %}
-    {{ event.title }}
+
+<p>Title: {{ event.title }}</p>
+<p>Approved: {{ event.is_approved }}</p>
+<p>Start Time: {{ event.start_date }} | End Time: {{ event.end_date }}</p>
+<p>Overview: {{ event.overview }}</p>
 
 {% endblock content %}
