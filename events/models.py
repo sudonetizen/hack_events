@@ -21,3 +21,13 @@ class Event(BaseModel):
 
     def __str__(self):
         return self.title
+
+class Idea(BaseModel):
+    event = models.ForeignKey(Event, related_name="ideas", related_query_name="idea", on_delete=models.CASCADE)
+    owner = models.ForeignKey("accounts.CustomUser", related_name="ideas", related_query_name="idea", on_delete=models.CASCADE)
+    title = models.CharField(verbose_name=_("title"), max_length=255)
+    overview = models.TextField(verbose_name=_("overview"))
+
+    def __str__(self):
+        return self.title
+
