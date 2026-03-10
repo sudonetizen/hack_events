@@ -9,4 +9,24 @@
 <p>Start Time: {{ event.start_date }} | End Time: {{ event.end_date }}</p>
 <p>Overview: {{ event.overview }}</p>
 
+<hr>
+
+{% for idea in event.ideas.all %}
+    <p>{{ idea.title }} &middot; {{ idea.overview }}</p>
+{% endfor %}
+
+{% if user.is_authenticated %}
+
+<hr>
+
+<div class="w-50 mb-3">
+<form action="{% url 'create-idea' event.pk %}" method="post">
+    {% csrf_token %}
+    {{ idea_form.as_p }}
+    <button type="submit">Create Idea</button>
+</form>
+</div>
+
+{% endif %}
+
 {% endblock content %}

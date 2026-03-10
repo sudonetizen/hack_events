@@ -6,8 +6,7 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ("title", "organizer", "start_date", "end_date", "is_approved")
 
 class IdeaAdmin(admin.ModelAdmin):
-    pass
-
+    list_display = ("title", "overview", "event", "owner")
 
 admin.site.register(Event, EventAdmin)
 admin.site.register(Idea, IdeaAdmin)
