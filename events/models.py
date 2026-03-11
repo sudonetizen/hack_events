@@ -31,3 +31,12 @@ class Idea(BaseModel):
     def __str__(self):
         return self.title
 
+class IdeaUpvote(BaseModel):
+    idea = models.ForeignKey(Idea, related_name="upvotes", related_query_name="upvote", on_delete=models.CASCADE)
+    user = models.ForeignKey("accounts.CustomUser", related_name="upvotes", related_query_name="upvote", on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ("idea", "user")
+
+    def __str__(self):
+        return f"{self.user} likes {self.idea.title}"

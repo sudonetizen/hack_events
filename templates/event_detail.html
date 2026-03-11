@@ -12,7 +12,7 @@
 <hr>
 
 {% for idea in event.ideas.all %}
-    <p>{{ idea.title }} &middot; {{ idea.overview }}</p>
+    <p>{{ idea.title }} &middot; {{ idea.overview }} &middot; likes: {{ idea.upvotes.count }}</p>
 {% endfor %}
 
 {% if user.is_authenticated %}
