@@ -11,8 +11,11 @@
 
 <hr>
 
-{% for idea in event.ideas.all %}
-    <p>{{ idea.title }} &middot; {{ idea.overview }} &middot; likes: {{ idea.upvotes.count }}</p>
+{% for idea in ideas %}
+<p>{{ idea.title }} &middot; {{ idea.overview }} &middot; <span onclick="upvoteIdea({{ idea.pk }})">upvote</span>: {{ idea.upvotes.count }} {% if idea.is_liked %} &middot; liked by you {% endif %}</p>
+    <form id="upvote-idea-{{ idea.pk }}" type="hidden" action="{% url 'upvote-idea' event.pk idea.pk %}" method="post">
+        {% csrf_token %}
+    </form>
 {% endfor %}
 
 {% if user.is_authenticated %}
@@ -28,5 +31,11 @@
 </div>
 
 {% endif %}
+
+<script>
+function upvoteIdea(idea_id) {
+    document.getElementById(`upvote-idea-${idea_id}`).submit();
+}
+</script>
 
 {% endblock content %}

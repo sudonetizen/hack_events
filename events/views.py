@@ -1,10 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
+from django.db import IntegrityError 
+from django.db.models import Exists, OuterRef
 from django.views import View
 
 from .forms import CreateIdeaForm
-from .models import Event, Idea
+from .models import Event, Idea, IdeaUpvote
 
 class EventDetailView(View):
     def get(self, request, event_id):
@@ -13,7 +15,12 @@ class EventDetailView(View):
         except Event.DoesNotExist:
             return HttpResponse("Event does not exist!")
 
-        context = {"event": event, "idea_form": CreateIdeaForm()}
+        ideas = event.ideas.annotate(
+            is_liked=Exists(
+                IdeaUpvote.objects.filter(user=request.user, idea=OuterRef("pk"))
+            )
+        )
+        context = {"event": event, "idea_form": CreateIdeaForm(), "ideas": ideas}
 
         return render(request, "../templates/event_detail.html", context=context)
 
@@ -36,3 +43,16 @@ class CreateEventIdeaView(LoginRequiredMixin, View):
 
         return redirect("event-detail", event_id=event.pk)
 
+class UpvoteIdeaView(LoginRequiredMixin, View):
+    def post(self, request, event_id, idea_id):
+        try:
+            idea = Idea.objects.get(pk=idea_id, event__id=event_id)
+        except Idea.DoesNotExist:
+            return HttpResponse("Idea does not exist")
+
+        try: 
+            IdeaUpvote.objects.create(idea=idea, user=request.user)
+        except IntegrityError:
+            return HttpResponse("one user can upvote any idea once only!")
+
+        return redirect("event-detail", event_id=event_id)
